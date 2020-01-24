@@ -1,0 +1,9 @@
+{
+  "name": "Blockbuster",
+  "short_name": "Blockbuster",
+  "icons": [],
+  "start_url": "http://localhost:8080/",
+  "display": "standalone",
+  "background_color": "",
+  "theme_color": ""
+}
