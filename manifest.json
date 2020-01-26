@@ -33,7 +33,7 @@
       "type": "image/png"
     }
   ],
-  "start_url": "/",
+  "start_url": "/blockbuster",
   "display": "standalone",
   "background_color": "#f1f3f4",
   "theme_color": "#ffb300"
