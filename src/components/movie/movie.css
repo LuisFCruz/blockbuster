@@ -1,0 +1,27 @@
+b-movie {
+  max-width: 1000px;
+  background-color: var(--white-color);
+  display: block;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+b-movie b-image {
+  max-width: 150px;
+  float: left;
+  margin-right: 10px;
+}
+
+b-movie > article> h2 {
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 10px;
+  margin: 10px 0 15px;
+}
+
+b-movie > article > div {
+  overflow: hidden;
+}
+
+b-movie p {
+  margin-top: 0;
+}

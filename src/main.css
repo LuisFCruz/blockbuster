@@ -1,0 +1,24 @@
+html {
+  --white-color: #fff;
+
+  --theme-color: #ffb300;
+  --background-color: #f1f3f4;
+  --border-color: #dadce0;
+  --link-color: #1a73e8;
+
+  --text-size: 16px;
+}
+
+body {
+  margin: 0;
+  font: 400 16px/24px Arial, Helvetica, sans-serif;
+  background-color: var(--background-color);
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+@import './components/components.css';
+@import './icons.css';

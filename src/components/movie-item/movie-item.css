@@ -1,0 +1,27 @@
+b-movie-item {
+  display: flex;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--white-color);
+  padding: 20px;
+}
+
+b-movie-item div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+b-movie-item > b-image {
+  flex: 0 75px;
+  margin-right: 10px;
+}
+
+b-movie-item a {
+  color: var(--link-color);
+}
+
+b-movie-item > div > h2 {
+  margin: 0;
+  font-size: 1.125em;
+}
