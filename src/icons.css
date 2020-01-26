@@ -1,0 +1,7 @@
+i[class^=i-] {
+  font-style: normal;
+}
+
+i.i-star::before {
+  content: '\2605';
+}
