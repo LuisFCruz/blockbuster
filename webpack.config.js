@@ -15,6 +15,7 @@ module.exports = ({ mode }) =>
       output: {
         filename: 'main.js',
         path: path.resolve(__dirname, 'dist'),
+        publicPath: "/"
       },
       plugins: [
         new CleanWebpackPlugin(),
