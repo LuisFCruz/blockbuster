@@ -158,10 +158,10 @@ class InstallApp extends HTMLElement {
       this.handlerBeforeInstallPrompt.bind(this)
     );
 
-    const installApp = this.getElementById('install-app');
+    const installApp = this.querySelector('#install-app');
     installApp.removeEventListener('click', this.handlerInstallApp.bind(this));
 
-    const cancelInstall = this.getElementById('cancel-install');
+    const cancelInstall = this.querySelector('#cancel-install');
     cancelInstall.removeEventListener('click', this.hiddenOptions.bind(this));
   }
 
@@ -170,10 +170,10 @@ class InstallApp extends HTMLElement {
     event.preventDefault();
     this._deferredPrompt = event;
 
-    const installApp = this.getElementById('install-app');
+    const installApp = this.querySelector('#install-app');
     installApp.addEventListener('click', this.handlerInstallApp.bind(this));
 
-    const cancelInstall = this.getElementById('cancel-install');
+    const cancelInstall = this.querySelector('#cancel-install');
     cancelInstall.addEventListener('click', this.hiddenOptions.bind(this));
   }
 
