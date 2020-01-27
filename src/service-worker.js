@@ -1,18 +1,18 @@
 const CACHE_NAME = 'static-cache-v1';
 
 const FILES_TO_CACHE = [
-  '/',
-  '/index.html',
-  //'/main.css',
-  '/main.js',
-  '/manifest.json',
-  '/images/icons/icon-128x128.png',
-  '/images/icons/icon-144x144.png',
-  '/images/icons/icon-152x152.png',
-  '/images/icons/icon-192x192.png',
-  '/images/icons/icon-256x256.png',
-  '/images/icons/icon-512x512.png',
-  '/images/ultimato.jpg'
+  '/blockbuster/',
+  '/blockbuster/index.html',
+  '/blockbuster/main.css',
+  '/blockbuster/main.js',
+  '/blockbuster/manifest.json',
+  '/blockbuster/images/icons/icon-128x128.png',
+  '/blockbuster/images/icons/icon-144x144.png',
+  '/blockbuster/images/icons/icon-152x152.png',
+  '/blockbuster/images/icons/icon-192x192.png',
+  '/blockbuster/images/icons/icon-256x256.png',
+  '/blockbuster/images/icons/icon-512x512.png',
+  '/blockbuster/images/ultimato.jpg'
 ];
 
 self.addEventListener('install', event => {

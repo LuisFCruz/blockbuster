@@ -1,7 +1,10 @@
 const path = require('path');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = () => ({
+  output: {
+    publicPath: '/blockbuster/',
+  },
   module: {
     rules: [
       {
@@ -16,6 +19,11 @@ module.exports = () => ({
       path.join(__dirname, '../src/image'),
     ],
   },
-  plugins: [new CopyWebpackPlugin(['src/service-worker.js'])],
+  plugins: [
+    new webpack.DefinePlugin({
+      BASE_URL: '"http://localhost:8080"',
+      PATH: '"blockbuster"',
+    }),
+  ],
   devtool: 'source-map',
 });

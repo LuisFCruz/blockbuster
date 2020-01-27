@@ -17,7 +17,7 @@ export class MovieItem extends HTMLElement {
       <b-image src="${image}" title="Poster ${title}"></b-image>
       <div>
         <h2>
-          <a href="movie/${id}" alt="Acesar ${title}" >${title}</a>
+          <b-link href="/movie/${id}" alt="Acessar ${title}" >${title}</b-link>
         </h2>
         <span>${year}</span>
         <span>Nota ${rating.toLocaleString()}</span>
@@ -25,19 +25,8 @@ export class MovieItem extends HTMLElement {
     `;
     this.innerHTML = template;
 
-    const anchor = this.querySelector('a');
-    anchor.addEventListener('click', this.handlerClick.bind(this), false);
-  }
-
-  disconnectedCallback() {
-    const anchor = this.querySelector('a');
-    anchor.removeEventListener('click', this.handlerClick.bind(this), false);
-  }
-
-  handlerClick(event) {
-    event.preventDefault();
-    const anchor = event.target.closest('a');
-    this.router.navigateTo(anchor.href);
+    const link = this.querySelector('b-link');
+    link.router = this.router;
   }
 }
 

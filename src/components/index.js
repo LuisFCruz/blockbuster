@@ -5,3 +5,4 @@ import './image/image.js';
 import './movie/movie.js';
 import './datasheet/datasheet.js';
 import './datasheet-item/datasheet-item.js';
+import './link/link.js';

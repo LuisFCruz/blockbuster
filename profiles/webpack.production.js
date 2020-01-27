@@ -1,4 +1,6 @@
+const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = () => ({
   module: {
@@ -9,5 +11,14 @@ module.exports = () => ({
       },
     ],
   },
-  plugins: [new MiniCssExtractPlugin()],
+  optimization: {
+    minimizer: [new OptimizeCSSAssetsPlugin({})],
+  },
+  plugins: [
+    new MiniCssExtractPlugin(),
+    new webpack.DefinePlugin({
+      BASE_URL: '"https://luisfcruz.github.io"',
+      PATH: '"blockbuster"'
+    }),
+  ],
 });

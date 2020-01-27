@@ -11,11 +11,13 @@ module.exports = ({ mode }) =>
   webpackMerge(
     {
       mode,
-      entry: './src/app.js',
+      entry: {
+        main: './src/app.js',
+        'service-worker': './src/service-worker.js',
+      },
       output: {
-        filename: 'main.js',
         path: path.resolve(__dirname, 'dist'),
-        publicPath: "/"
+        publicPath: '/blockbuster/',
       },
       plugins: [
         new CleanWebpackPlugin(),
@@ -29,6 +31,7 @@ module.exports = ({ mode }) =>
           { from: 'src/images', to: 'images/' },
           'src/manifest.json',
           'src/service-worker.js',
+          'data',
         ]),
       ],
     },

@@ -1,4 +1,5 @@
 import { installRouter } from 'pwa-helpers/router.js';
+import constants from '../constants';
 
 export default class Router {
   constructor() {
@@ -6,22 +7,28 @@ export default class Router {
   }
 
   add(uri, handler) {
+    const path = this._getPath(uri);
     this.routes.push({
-      uri,
+      uri: path,
       handler,
-      rule: this._getRule(uri),
+      rule: this._getRule(path),
     });
   }
 
   applay() {
-    this.navigateTo("/");
+    const [route] = this.routes;
+    this._handleNavigation({ pathname: route.uri });
   }
 
   navigateTo(uri) {
     installRouter(location => {
-      window.history.pushState({}, '', uri);
+      window.history.pushState({}, '', this._getPath(uri));
       this._handleNavigation(location);
     });
+  }
+
+  _getPath(uri) {
+    return `${constants.path}${uri}`;
   }
 
   _getRule(uri) {

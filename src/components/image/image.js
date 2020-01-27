@@ -1,3 +1,5 @@
+import constants from '../../constants';
+
 class Image extends HTMLElement {
   constructor() {
     super();
@@ -13,7 +15,7 @@ class Image extends HTMLElement {
 
     const template = `
       <figure>
-        <img src="${window.location.origin}/images/${image}" alt=${title} />
+        <img src="${constants.baseUrl}/images/${image}" alt=${title} />
       </figure>
     `;
     this.innerHTML = template;
