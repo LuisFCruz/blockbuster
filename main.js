@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -121,8 +121,85 @@ customElements.define(Link.name, Link);
 
 
 /***/ }),
-/* 2 */,
-/* 3 */
+/* 2 */
+/***/ (function(module, exports) {
+
+class InstallApp extends HTMLElement {
+  constructor() {
+    super();
+    this._deferredPrompt;
+  }
+
+  static get name() {
+    return 'b-install-app';
+  }
+
+  connectedCallback() {
+    this.hiddenOptions();
+    const template = `
+      <strong>Deseja installar nosso app?</strong>
+      <div>
+        <button id="cancel-install">Não</button>
+        <button id="install-app">Sim</button>
+      </div>
+    `;
+
+    this.innerHTML = template;
+
+    window.addEventListener(
+      'beforeinstallprompt',
+      this.handlerBeforeInstallPrompt.bind(this)
+    );
+  }
+
+  disconnectedCallback() {
+    window.removeEventListener(
+      'beforeinstallprompt',
+      this.handlerBeforeInstallPrompt.bind(this)
+    );
+
+    const installApp = this.getElementById('install-app');
+    installApp.removeEventListener('click', this.handlerInstallApp.bind(this));
+
+    const cancelInstall = this.getElementById('cancel-install');
+    cancelInstall.removeEventListener('click', this.hiddenOptions.bind(this));
+  }
+
+  handlerBeforeInstallPrompt(event) {
+    this.style.display = 'block';
+    event.preventDefault();
+    this._deferredPrompt = event;
+
+    const installApp = this.getElementById('install-app');
+    installApp.addEventListener('click', this.handlerInstallApp.bind(this));
+
+    const cancelInstall = this.getElementById('cancel-install');
+    cancelInstall.addEventListener('click', this.hiddenOptions.bind(this));
+  }
+
+  async handlerInstallApp() {
+    this._deferredPrompt.prompt();
+    const choiceResult = await this._deferredPrompt.userChoice;
+    this.hiddenOptions();
+
+    if (choiceResult.outcome === 'accepted') {
+      console.log('user accepted');
+    } else {
+      console.log('user dismissed');
+    }
+  }
+
+  hiddenOptions() {
+    this.style.display = 'none';
+  }
+}
+
+customElements.define(InstallApp.name, InstallApp);
+
+
+/***/ }),
+/* 3 */,
+/* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -541,7 +618,11 @@ customElements.define(DatasheetItem.name, DatasheetItem);
 // EXTERNAL MODULE: ./src/components/link/link.js
 var link_link = __webpack_require__(1);
 
+// EXTERNAL MODULE: ./src/components/install-app/install-app.js
+var install_app = __webpack_require__(2);
+
 // CONCATENATED MODULE: ./src/components/index.js
+
 
 
 

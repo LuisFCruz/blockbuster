@@ -21,15 +21,14 @@
   <link href="/blockbuster/main.css" rel="stylesheet"></head>
   <body>
     <section class="container"></section>
+    <b-install-app></b-install-app>
     <noscript>
       Habilite o javascript para conseguir navegar no site.
     </noscript>
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register(
-            `blockbuster/service-worker.js`
-          );
+          navigator.serviceWorker.register(`blockbuster/service-worker.js`);
         });
       }
     </script>
