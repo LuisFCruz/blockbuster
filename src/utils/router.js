@@ -15,14 +15,8 @@ export default class Router {
     });
   }
 
-  applay() {
-    const [route] = this.routes;
-    this._handleNavigation({ pathname: route.uri });
-  }
-
-  navigateTo(uri) {
+  register() {
     installRouter(location => {
-      window.history.pushState({}, '', this._getPath(uri));
       this._handleNavigation(location);
     });
   }

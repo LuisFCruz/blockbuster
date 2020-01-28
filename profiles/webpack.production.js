@@ -28,6 +28,9 @@ module.exports = () => ({
       },
     }),
     new HtmlWebpackPlugin({
+      title: 'Blockbuster',
+      filename: 'index.html',
+      template: './src/index.html',
       minify: {
         collapseWhitespace: true,
       },

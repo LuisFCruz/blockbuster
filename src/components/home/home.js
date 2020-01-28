@@ -2,9 +2,8 @@ import { serviceMovies } from '../../services/movies';
 import { MovieItem } from '../movie-item/movie-item';
 
 export class Home extends HTMLElement {
-  constructor(router) {
+  constructor() {
     super();
-    this.router = router;
   }
 
   static get name() {
@@ -16,7 +15,7 @@ export class Home extends HTMLElement {
 
     if (movies) {
       movies.forEach(movie =>
-        this.appendChild(new MovieItem(this.router, movie))
+        this.appendChild(new MovieItem(movie))
       );
     } else {
       this.innerHTML = '<b-not-found></b-not-found>';

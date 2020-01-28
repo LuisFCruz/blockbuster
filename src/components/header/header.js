@@ -1,7 +1,6 @@
-export class Header extends HTMLElement {
-  constructor(router) {
+class Header extends HTMLElement {
+  constructor() {
     super();
-    this.router = router;
   }
 
   static get name() {
@@ -11,17 +10,14 @@ export class Header extends HTMLElement {
   connectedCallback() {
     const template = `
       <header>
-        <b-link href="/">
+        <a href="">
           <h1>
             Block<span>buster</span>
           </h1>
-        </b-link>
+        </a>
       </header>
     `;
     this.innerHTML = template;
-
-    const link = this.querySelector('b-link');
-    link.router = this.router;
   }
 }
 

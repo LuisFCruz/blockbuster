@@ -4,11 +4,10 @@ b-rating > section div {
 }
 
 b-rating > section i {
-  font-size: 4em;
+  font-size: 3em;
   color: var(--theme-color);
 }
 
 b-rating > section span {
   margin-left: 10px;
-  font-size: 1.25em;
 }

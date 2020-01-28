@@ -13,7 +13,6 @@ module.exports = ({ mode }) =>
       mode,
       entry: {
         main: './src/app.js',
-        'service-worker': './src/service-worker.js',
       },
       output: {
         path: path.resolve(__dirname, 'dist'),

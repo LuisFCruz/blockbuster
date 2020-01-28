@@ -5,7 +5,6 @@ import './image/image.js';
 import './movie/movie.js';
 import './datasheet/datasheet.js';
 import './datasheet-item/datasheet-item.js';
-import './link/link.js';
 import './install-app/install-app.js';
 import './rating/rating.js';
 import './not-found/not-found.js';

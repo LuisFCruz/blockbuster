@@ -14,6 +14,7 @@ module.exports = () => ({
     ],
   },
   devServer: {
+    historyApiFallback: true,
     contentBase: [
       path.join(__dirname, '../data'),
       path.join(__dirname, '../src/image'),

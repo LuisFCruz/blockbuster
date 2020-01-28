@@ -12,19 +12,15 @@ window.addEventListener('load', () => {
 
   router.add('/', () => {
     container.innerHTML = '';
-    const headerEl = new Header(router);
-    container.appendChild(headerEl);
-    const homeEl = new Home(router);
+    const homeEl = new Home();
     container.appendChild(homeEl);
   });
 
   router.add('/movie/:id', movieId => {
     container.innerHTML = '';
-    const headerEl = new Header(router);
-    container.appendChild(headerEl);
     const el = new Movie(movieId);
     container.appendChild(el);
   });
 
-  router.applay();
+  router.register();
 });
