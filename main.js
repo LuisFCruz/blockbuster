@@ -81,45 +81,43 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 6);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-
-/***/ }),
-/* 1 */
 /***/ (function(module, exports) {
 
-class Link extends HTMLElement {
+class Header extends HTMLElement {
   constructor() {
     super();
   }
 
   static get name() {
-    return 'b-link';
+    return 'b-header';
   }
 
   connectedCallback() {
-    this.tabIndex = 0;
-    this.addEventListener('click', this.handlerClick.bind(this), false);
-  }
-
-  disconnectedCallback() {
-    this.removeEventListener('click', this.handlerClick.bind(this), false);
-  }
-
-  handlerClick(event) {
-    event.preventDefault();
-    this.router.navigateTo(this.getAttribute('href'));
+    const template = `
+      <header>
+        <a href="">
+          <h1>
+            Block<span>buster</span>
+          </h1>
+        </a>
+      </header>
+    `;
+    this.innerHTML = template;
   }
 }
 
-customElements.define(Link.name, Link);
+customElements.define(Header.name, Header);
 
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
 
 /***/ }),
 /* 2 */
@@ -266,8 +264,7 @@ customElements.define(NotFound.name, NotFound);
 
 
 /***/ }),
-/* 5 */,
-/* 6 */
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -373,14 +370,8 @@ class router_Router {
     });
   }
 
-  applay() {
-    const [route] = this.routes;
-    this._handleNavigation({ pathname: route.uri });
-  }
-
-  navigateTo(uri) {
+  register() {
     installRouter(location => {
-      window.history.pushState({}, '', this._getPath(uri));
       this._handleNavigation(location);
     });
   }
@@ -452,9 +443,8 @@ const serviceMovies = { getMovies, getMovieInfo };
 
 // CONCATENATED MODULE: ./src/components/movie-item/movie-item.js
 class MovieItem extends HTMLElement {
-  constructor(router, movie) {
+  constructor(movie) {
     super();
-    this.router = router;
     this.movie = movie;
   }
 
@@ -470,16 +460,13 @@ class MovieItem extends HTMLElement {
       <b-image src="${image}" title="Poster ${title}"></b-image>
       <div>
         <h2>
-          <b-link href="/movie/${id}" alt="Acessar ${title}" >${title}</b-link>
+          <a href="movie/${id}" alt="Acessar ${title}" >${title}</a>
         </h2>
         <span>${year}</span>
         <span>Nota ${rating.toLocaleString()}</span>
       </div>
     `;
     this.innerHTML = template;
-
-    const link = this.querySelector('b-link');
-    link.router = this.router;
   }
 }
 
@@ -490,9 +477,8 @@ customElements.define(MovieItem.name, MovieItem);
 
 
 class home_Home extends HTMLElement {
-  constructor(router) {
+  constructor() {
     super();
-    this.router = router;
   }
 
   static get name() {
@@ -504,7 +490,7 @@ class home_Home extends HTMLElement {
 
     if (movies) {
       movies.forEach(movie =>
-        this.appendChild(new MovieItem(this.router, movie))
+        this.appendChild(new MovieItem(movie))
       );
     } else {
       this.innerHTML = '<b-not-found></b-not-found>';
@@ -571,37 +557,11 @@ class movie_Movie extends HTMLElement {
 
 customElements.define(movie_Movie.name, movie_Movie);
 
-// CONCATENATED MODULE: ./src/components/header/header.js
-class Header extends HTMLElement {
-  constructor(router) {
-    super();
-    this.router = router;
-  }
+// EXTERNAL MODULE: ./src/components/header/header.js
+var header = __webpack_require__(0);
 
-  static get name() {
-    return 'b-header';
-  }
-
-  connectedCallback() {
-    const template = `
-      <header>
-        <b-link href="/">
-          <h1>
-            Block<span>buster</span>
-          </h1>
-        </b-link>
-      </header>
-    `;
-    this.innerHTML = template;
-
-    const link = this.querySelector('b-link');
-    link.router = this.router;
-  }
-}
-
-customElements.define(Header.name, Header);
 // EXTERNAL MODULE: ./src/main.css
-var main = __webpack_require__(0);
+var main = __webpack_require__(1);
 
 // CONCATENATED MODULE: ./src/components/image/image.js
 
@@ -699,9 +659,6 @@ class DatasheetItem extends HTMLElement {
 
 customElements.define(DatasheetItem.name, DatasheetItem);
 
-// EXTERNAL MODULE: ./src/components/link/link.js
-var link_link = __webpack_require__(1);
-
 // EXTERNAL MODULE: ./src/components/install-app/install-app.js
 var install_app = __webpack_require__(2);
 
@@ -712,7 +669,6 @@ var rating_rating = __webpack_require__(3);
 var not_found = __webpack_require__(4);
 
 // CONCATENATED MODULE: ./src/components/index.js
-
 
 
 
@@ -739,21 +695,17 @@ window.addEventListener('load', () => {
 
   router.add('/', () => {
     container.innerHTML = '';
-    const headerEl = new Header(router);
-    container.appendChild(headerEl);
-    const homeEl = new home_Home(router);
+    const homeEl = new home_Home();
     container.appendChild(homeEl);
   });
 
   router.add('/movie/:id', movieId => {
     container.innerHTML = '';
-    const headerEl = new Header(router);
-    container.appendChild(headerEl);
     const el = new movie_Movie(movieId);
     container.appendChild(el);
   });
 
-  router.applay();
+  router.register();
 });
 
 
