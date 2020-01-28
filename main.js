@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -104,6 +104,7 @@ class Link extends HTMLElement {
   }
 
   connectedCallback() {
+    this.tabIndex = 0;
     this.addEventListener('click', this.handlerClick.bind(this), false);
   }
 
@@ -137,11 +138,14 @@ class InstallApp extends HTMLElement {
   connectedCallback() {
     this.hiddenOptions();
     const template = `
-      <strong>Deseja installar nosso app?</strong>
-      <div>
-        <button id="cancel-install">Não</button>
-        <button id="install-app">Sim</button>
-      </div>
+      <section>
+        <strong>Mantenha se atualizado</strong>
+        <p>Nosso app é rápido, pequeno e funciona offline</p>
+        <div>
+          <button id="cancel-install">Não, obrigado</button>
+          <button id="install-app">Aceito</button>
+        </div>
+      </section>
     `;
 
     this.innerHTML = template;
@@ -179,14 +183,8 @@ class InstallApp extends HTMLElement {
 
   async handlerInstallApp() {
     this._deferredPrompt.prompt();
-    const choiceResult = await this._deferredPrompt.userChoice;
+    await this._deferredPrompt.userChoice;
     this.hiddenOptions();
-
-    if (choiceResult.outcome === 'accepted') {
-      console.log('user accepted');
-    } else {
-      console.log('user dismissed');
-    }
   }
 
   hiddenOptions() {
@@ -198,8 +196,78 @@ customElements.define(InstallApp.name, InstallApp);
 
 
 /***/ }),
-/* 3 */,
+/* 3 */
+/***/ (function(module, exports) {
+
+class Rating extends HTMLElement {
+  constructor() {
+    super();
+  }
+
+  static get name() {
+    return 'b-rating';
+  }
+
+  connectedCallback() {
+    const value = this.getAttribute('value');
+    const rating = parseFloat(value);
+
+    const template = `
+      <section>
+        <h3 class="sub-title">Nota</h3>
+        <div>
+          <i class="i-star"></i>
+          <span>${rating.toLocaleString()}</span>
+          <span>${this.ratingToText(rating)}</span>
+        </div>
+      </section>
+    `;
+
+    this.innerHTML = template;
+  }
+
+  ratingToText(rating = 0) {
+    const values = ['Péssimo', 'Ruim', 'Bom', 'Ótimo', 'Excelente'];
+    const index = Math.floor(rating / 2) - 1;
+    return values[index] || '';
+  }
+}
+
+customElements.define(Rating.name, Rating);
+
+
+/***/ }),
 /* 4 */
+/***/ (function(module, exports) {
+
+class NotFound extends HTMLElement {
+  constructor() {
+    super();
+  }
+
+  static get name() {
+    return 'b-not-found';
+  }
+
+  connectedCallback() {
+    const template = `
+        <div>
+          <i class="i-sad-face"></i>
+        </div>
+        <p>Ops! Não encontramos o que você esta procurando.</p>
+    `;
+
+    this.innerHTML = template;
+  }
+
+}
+
+customElements.define(NotFound.name, NotFound);
+
+
+/***/ }),
+/* 5 */,
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -368,7 +436,7 @@ const getMovies = async () => {
   try {
     return await client.get(`${src_constants.baseUrl}/movies.json`);
   } catch {
-    return [];
+    return null;
   }
 };
 
@@ -376,7 +444,7 @@ const getMovieInfo = async (movieId) => {
   try {
     return await client.get(`${src_constants.baseUrl}/movies/${movieId}.json`);
   } catch {
-    return {};
+    return null;
   }
 }
 
@@ -433,7 +501,14 @@ class home_Home extends HTMLElement {
 
   async connectedCallback() {
     const movies = await serviceMovies.getMovies();
-    movies.forEach(movie => this.appendChild(new MovieItem(this.router, movie)));
+
+    if (movies) {
+      movies.forEach(movie =>
+        this.appendChild(new MovieItem(this.router, movie))
+      );
+    } else {
+      this.innerHTML = '<b-not-found></b-not-found>';
+    }
   }
 }
 
@@ -453,6 +528,13 @@ class movie_Movie extends HTMLElement {
   }
 
   async connectedCallback() {
+    const movie = await serviceMovies.getMovieInfo(this.movieId);
+
+    if (!movie) {
+      this.innerHTML = '<b-not-found></b-not-found>';
+      return;
+    }
+
     const {
       title,
       originalTitle,
@@ -462,7 +544,8 @@ class movie_Movie extends HTMLElement {
       recommended,
       image,
       synopsis,
-    } = await serviceMovies.getMovieInfo(this.movieId);
+      rating,
+    } = movie;
 
     const template = `
       <article>
@@ -471,6 +554,7 @@ class movie_Movie extends HTMLElement {
           <b-image src="${image}" title="Poster ${title}"></b-image>
           <p>${synopsis}</p>
         </div>
+        <b-rating value="${rating}"></b-rating>
         <b-datasheet
           originalTitle="${originalTitle}"
           release="${release}"
@@ -571,7 +655,7 @@ class Datasheet extends HTMLElement {
 
     const template = `
       <section>
-        <h3>Ficha Técnica</h3>
+        <h3 class="sub-title">Ficha Técnica</h3>
         <b-datasheet-item label="Título Original" description="${originalTitle}" ></b-datasheet-item>
           <b-datasheet-item label="Data de Lançamento" description="${release}" ></b-datasheet-item>
           <b-datasheet-item label="Gênero" description="${genre}" ></b-datasheet-item>
@@ -621,7 +705,15 @@ var link_link = __webpack_require__(1);
 // EXTERNAL MODULE: ./src/components/install-app/install-app.js
 var install_app = __webpack_require__(2);
 
+// EXTERNAL MODULE: ./src/components/rating/rating.js
+var rating_rating = __webpack_require__(3);
+
+// EXTERNAL MODULE: ./src/components/not-found/not-found.js
+var not_found = __webpack_require__(4);
+
 // CONCATENATED MODULE: ./src/components/index.js
+
+
 
 
 
