@@ -1,0 +1,54 @@
+b-install-app {
+  position: fixed;
+  z-index: 100;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+b-install-app section {
+  background: var(--white-color);
+  padding: 20px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 0 20px 3px var(--shadow-color);
+}
+
+b-install-app p {
+  margin-top: 0;
+}
+
+b-install-app button {
+  padding: 10px 25px;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: none;
+}
+
+b-install-app button#cancel-install {
+  color: var(--link-color);
+  background: transparent;
+}
+
+b-install-app button#install-app {
+  border-radius: 5px;
+  background: var(--theme-color);
+  box-shadow: 0 2px 5px 0 var(--shadow-color), 0 2px 6px 0 var(--shadow-color);
+}
+
+@media screen and (min-width: 900px) {
+  b-install-app {
+    top: 0;
+    bottom: auto;
+  }
+
+  b-install-app section {
+    width: 400px;
+    margin: 0 auto;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+}
