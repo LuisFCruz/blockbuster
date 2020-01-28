@@ -13,7 +13,14 @@ export class Home extends HTMLElement {
 
   async connectedCallback() {
     const movies = await serviceMovies.getMovies();
-    movies.forEach(movie => this.appendChild(new MovieItem(this.router, movie)));
+
+    if (movies) {
+      movies.forEach(movie =>
+        this.appendChild(new MovieItem(this.router, movie))
+      );
+    } else {
+      this.innerHTML = '<b-not-found></b-not-found>';
+    }
   }
 }
 

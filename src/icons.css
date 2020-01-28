@@ -1,7 +1,12 @@
 i[class^=i-] {
   font-style: normal;
+  line-height: 1;
 }
 
 i.i-star::before {
   content: '\2605';
+}
+
+i.i-sad-face::before {
+  content: '\2639';	
 }

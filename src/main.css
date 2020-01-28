@@ -8,6 +8,8 @@ html {
   --shadow-color: #d8d8d8;
 
   --text-size: 16px;
+
+  --max-screen-width: 900px;
 }
 
 body {
@@ -19,6 +21,12 @@ body {
 a {
   text-decoration: none;
   color: black;
+}
+
+.sub-title {
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 5px;
+  margin-bottom: 5px;
 }
 
 @import './components/components.css';

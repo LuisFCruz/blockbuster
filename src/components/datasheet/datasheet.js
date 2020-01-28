@@ -22,7 +22,7 @@ export class Datasheet extends HTMLElement {
 
     const template = `
       <section>
-        <h3>Ficha Técnica</h3>
+        <h3 class="sub-title">Ficha Técnica</h3>
         <b-datasheet-item label="Título Original" description="${originalTitle}" ></b-datasheet-item>
           <b-datasheet-item label="Data de Lançamento" description="${release}" ></b-datasheet-item>
           <b-datasheet-item label="Gênero" description="${genre}" ></b-datasheet-item>

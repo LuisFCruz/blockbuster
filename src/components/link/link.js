@@ -8,6 +8,7 @@ class Link extends HTMLElement {
   }
 
   connectedCallback() {
+    this.tabIndex = 0;
     this.addEventListener('click', this.handlerClick.bind(this), false);
   }
 

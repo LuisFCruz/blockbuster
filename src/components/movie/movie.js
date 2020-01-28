@@ -11,6 +11,13 @@ export class Movie extends HTMLElement {
   }
 
   async connectedCallback() {
+    const movie = await serviceMovies.getMovieInfo(this.movieId);
+
+    if (!movie) {
+      this.innerHTML = '<b-not-found></b-not-found>';
+      return;
+    }
+
     const {
       title,
       originalTitle,
@@ -20,7 +27,8 @@ export class Movie extends HTMLElement {
       recommended,
       image,
       synopsis,
-    } = await serviceMovies.getMovieInfo(this.movieId);
+      rating,
+    } = movie;
 
     const template = `
       <article>
@@ -29,6 +37,7 @@ export class Movie extends HTMLElement {
           <b-image src="${image}" title="Poster ${title}"></b-image>
           <p>${synopsis}</p>
         </div>
+        <b-rating value="${rating}"></b-rating>
         <b-datasheet
           originalTitle="${originalTitle}"
           release="${release}"

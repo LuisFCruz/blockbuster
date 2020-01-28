@@ -4,6 +4,7 @@ b-movie-item {
   border-radius: 8px;
   background: var(--white-color);
   padding: 20px;
+  box-sizing: border-box;
 }
 
 b-movie-item div {
@@ -17,7 +18,7 @@ b-movie-item > b-image {
   margin-right: 10px;
 }
 
-b-movie-item a {
+b-movie-item b-link {
   color: var(--link-color);
 }
 

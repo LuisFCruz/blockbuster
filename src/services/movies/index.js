@@ -5,7 +5,7 @@ const getMovies = async () => {
   try {
     return await client.get(`${constants.baseUrl}/movies.json`);
   } catch {
-    return [];
+    return null;
   }
 };
 
@@ -13,7 +13,7 @@ const getMovieInfo = async (movieId) => {
   try {
     return await client.get(`${constants.baseUrl}/movies/${movieId}.json`);
   } catch {
-    return {};
+    return null;
   }
 }
 

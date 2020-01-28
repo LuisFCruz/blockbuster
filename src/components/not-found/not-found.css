@@ -1,0 +1,17 @@
+b-not-found {
+  background-color: var(--white-color);
+  padding: 20px;
+  text-align: center;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+b-not-found > div >i {
+  font-size: 9em;
+}
+
+b-not-found p {
+  font-size: 1.50rem;
+}
