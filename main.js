@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 5);
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -214,8 +214,8 @@ class Rating extends HTMLElement {
       <section>
         <h3 class="sub-title">Nota</h3>
         <div>
-          <i class="i-star"></i>
-          <span>${rating.toLocaleString()}</span>
+          <i class="i-star ${!rating ? 'empty' : ''}"></i>
+          <span>${rating ? rating.toLocaleString() : ''}</span>
           <span>${this.ratingToText(rating)}</span>
         </div>
       </section>
@@ -226,8 +226,8 @@ class Rating extends HTMLElement {
 
   ratingToText(rating = 0) {
     const values = ['Péssimo', 'Ruim', 'Bom', 'Ótimo', 'Excelente'];
-    const index = Math.floor(rating / 2) - 1;
-    return values[index] || '';
+    const index = Math.round(rating / 2) - 1;
+    return values[index] || 'Nenhuma avaliação';
   }
 }
 
@@ -265,6 +265,37 @@ customElements.define(NotFound.name, NotFound);
 
 /***/ }),
 /* 5 */
+/***/ (function(module, exports) {
+
+class Spinner extends HTMLElement {
+  constructor() {
+    super();
+  }
+
+  static get name() {
+    return 'b-spinner';
+  }
+
+  connectedCallback() {
+   
+    const template = `
+      <div class="spinner-cube">
+        <div class="cube1 cube"></div>
+        <div class="cube2 cube"></div>
+        <div class="cube4 cube"></div>
+        <div class="cube3 cube"></div>
+      </div>
+    `;
+
+    this.innerHTML = template;
+  }
+}
+
+customElements.define(Spinner.name, Spinner);
+
+
+/***/ }),
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -453,9 +484,8 @@ class MovieItem extends HTMLElement {
   }
 
   connectedCallback() {
-    const { title, image, release, rating, id } = this.movie;
-    const [, year] = release.match(/(\d{4})$/);
-
+    const { title, image, release, rating, id, type } = this.movie;
+    const year = this._getReaseYear(release, type);
     const template = `
       <b-image src="${image}" title="Poster ${title}"></b-image>
       <div>
@@ -463,10 +493,19 @@ class MovieItem extends HTMLElement {
           <a href="movie/${id}" alt="Acessar ${title}" >${title}</a>
         </h2>
         <span>${year}</span>
-        <span>Nota ${rating.toLocaleString()}</span>
+        <span>${rating ? `Nota ${rating.toLocaleString()}` : ''}</span>
       </div>
     `;
     this.innerHTML = template;
+  }
+
+  _getReaseYear(release, type) {
+    if (type === 'F') {
+      const [,year] =  release.match(/(\d{4})$/);
+      return year;
+    }
+
+    return release;
   }
 }
 
@@ -486,12 +525,14 @@ class home_Home extends HTMLElement {
   }
 
   async connectedCallback() {
+    this.innerHTML = '<b-spinner></b-spinner>';
+
     const movies = await serviceMovies.getMovies();
 
     if (movies) {
-      movies.forEach(movie =>
-        this.appendChild(new MovieItem(movie))
-      );
+      this.innerHTML = '';
+
+      movies.forEach(movie => this.appendChild(new MovieItem(movie)));
     } else {
       this.innerHTML = '<b-not-found></b-not-found>';
     }
@@ -514,6 +555,8 @@ class movie_Movie extends HTMLElement {
   }
 
   async connectedCallback() {
+    this.innerHTML = '<b-spinner></b-spinner>';
+
     const movie = await serviceMovies.getMovieInfo(this.movieId);
 
     if (!movie) {
@@ -525,12 +568,14 @@ class movie_Movie extends HTMLElement {
       title,
       originalTitle,
       release,
-      genre,
-      duration,
-      recommended,
       image,
       synopsis,
       rating,
+      genre = '',
+      duration = '',
+      recommended = '',
+      seasons = '',
+      episodes = '',
     } = movie;
 
     const template = `
@@ -547,6 +592,8 @@ class movie_Movie extends HTMLElement {
           genre="${genre}"
           duration="${duration}"
           recommended="${recommended}"
+          seasons="${seasons}"
+          episodes="${episodes}"
         ></b-datasheet>
       </article>
     `;
@@ -607,6 +654,8 @@ class Datasheet extends HTMLElement {
     const genre = this.getAttribute('genre');
     const duration = this.getAttribute('duration');
     const recommended = this.getAttribute('recommended');
+    const seasons = this.getAttribute('seasons');
+    const episodes = this.getAttribute('episodes');
 
     const recommendedDescritipion =
       recommended === 'L'
@@ -616,13 +665,21 @@ class Datasheet extends HTMLElement {
     const template = `
       <section>
         <h3 class="sub-title">Ficha Técnica</h3>
-        <b-datasheet-item label="Título Original" description="${originalTitle}" ></b-datasheet-item>
-          <b-datasheet-item label="Data de Lançamento" description="${release}" ></b-datasheet-item>
+          <b-datasheet-item label="Título Original" description="${originalTitle}" ></b-datasheet-item>
+          <b-datasheet-item label="Lançamento" description="${release}" ></b-datasheet-item>
           <b-datasheet-item label="Gênero" description="${genre}" ></b-datasheet-item>
           <b-datasheet-item label="Duração" description="${duration}" ></b-datasheet-item>
           <b-datasheet-item
             label="Recomendação"
             description="${recommendedDescritipion}"
+          ></b-datasheet-item>
+          <b-datasheet-item
+            label="Temporadas"
+            description="${seasons}"
+          ></b-datasheet-item>
+          <b-datasheet-item
+            label="Episódios"
+            description="${episodes}"
           ></b-datasheet-item>
       </section>
     `;
@@ -644,16 +701,18 @@ class DatasheetItem extends HTMLElement {
   }
 
   async connectedCallback() {
-      const label = this.getAttribute('label');
-      const description = this.getAttribute('description');
+    const label = this.getAttribute('label');
+    const description = this.getAttribute('description');
 
-    const template = `
-        <div>
-          <span>${label}:</span> ${description}
-        </div>
-    `;
+    if (description) {
+      const template = `
+            <div>
+              <span>${label}:</span> ${description}
+            </div>
+        `;
 
-    this.innerHTML = template;
+      this.innerHTML = template;
+    }
   }
 }
 
@@ -668,7 +727,11 @@ var rating_rating = __webpack_require__(3);
 // EXTERNAL MODULE: ./src/components/not-found/not-found.js
 var not_found = __webpack_require__(4);
 
+// EXTERNAL MODULE: ./src/components/spinner/spinner.js
+var spinner = __webpack_require__(5);
+
 // CONCATENATED MODULE: ./src/components/index.js
+
 
 
 
