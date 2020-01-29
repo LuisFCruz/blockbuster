@@ -8,6 +8,10 @@ b-rating > section i {
   color: var(--theme-color);
 }
 
+b-rating i.i-star.empty {
+  color: var(--gray-color);
+}
+
 b-rating > section span {
   margin-left: 10px;
 }

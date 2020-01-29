@@ -11,12 +11,14 @@ export class Home extends HTMLElement {
   }
 
   async connectedCallback() {
+    this.innerHTML = '<b-spinner></b-spinner>';
+
     const movies = await serviceMovies.getMovies();
 
     if (movies) {
-      movies.forEach(movie =>
-        this.appendChild(new MovieItem(movie))
-      );
+      this.innerHTML = '';
+
+      movies.forEach(movie => this.appendChild(new MovieItem(movie)));
     } else {
       this.innerHTML = '<b-not-found></b-not-found>';
     }

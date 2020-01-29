@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --env.mode=production",
+    "prepublish": "npm run build",
     "publish": "./node_modules/.bin/gh-pages -d dist/ -d dist/",
     "dev": "webpack-dev-server --env.mode=development --hot --host 0.0.0.0"
   },

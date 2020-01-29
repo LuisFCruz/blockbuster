@@ -11,6 +11,8 @@ export class Movie extends HTMLElement {
   }
 
   async connectedCallback() {
+    this.innerHTML = '<b-spinner></b-spinner>';
+
     const movie = await serviceMovies.getMovieInfo(this.movieId);
 
     if (!movie) {
@@ -22,12 +24,14 @@ export class Movie extends HTMLElement {
       title,
       originalTitle,
       release,
-      genre,
-      duration,
-      recommended,
       image,
       synopsis,
       rating,
+      genre = '',
+      duration = '',
+      recommended = '',
+      seasons = '',
+      episodes = '',
     } = movie;
 
     const template = `
@@ -44,6 +48,8 @@ export class Movie extends HTMLElement {
           genre="${genre}"
           duration="${duration}"
           recommended="${recommended}"
+          seasons="${seasons}"
+          episodes="${episodes}"
         ></b-datasheet>
       </article>
     `;

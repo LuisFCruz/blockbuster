@@ -8,3 +8,4 @@ import './datasheet-item/datasheet-item.js';
 import './install-app/install-app.js';
 import './rating/rating.js';
 import './not-found/not-found.js';
+import './spinner/spinner.js';

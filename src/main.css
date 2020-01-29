@@ -1,9 +1,10 @@
 html {
   --white-color: #fff;
+  --gray-color: #dadce0;
 
   --theme-color: #ffb300;
   --background-color: #f1f3f4;
-  --border-color: #dadce0;
+  --border-color: var(--gray-color);
   --link-color: #1a73e8;
   --shadow-color: #d8d8d8;
 

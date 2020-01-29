@@ -8,16 +8,18 @@ export class DatasheetItem extends HTMLElement {
   }
 
   async connectedCallback() {
-      const label = this.getAttribute('label');
-      const description = this.getAttribute('description');
+    const label = this.getAttribute('label');
+    const description = this.getAttribute('description');
 
-    const template = `
-        <div>
-          <span>${label}:</span> ${description}
-        </div>
-    `;
+    if (description) {
+      const template = `
+            <div>
+              <span>${label}:</span> ${description}
+            </div>
+        `;
 
-    this.innerHTML = template;
+      this.innerHTML = template;
+    }
   }
 }
 

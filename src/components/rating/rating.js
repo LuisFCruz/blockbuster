@@ -15,8 +15,8 @@ class Rating extends HTMLElement {
       <section>
         <h3 class="sub-title">Nota</h3>
         <div>
-          <i class="i-star"></i>
-          <span>${rating.toLocaleString()}</span>
+          <i class="i-star ${!rating ? 'empty' : ''}"></i>
+          <span>${rating ? rating.toLocaleString() : ''}</span>
           <span>${this.ratingToText(rating)}</span>
         </div>
       </section>
@@ -27,8 +27,8 @@ class Rating extends HTMLElement {
 
   ratingToText(rating = 0) {
     const values = ['Péssimo', 'Ruim', 'Bom', 'Ótimo', 'Excelente'];
-    const index = Math.floor(rating / 2) - 1;
-    return values[index] || '';
+    const index = Math.round(rating / 2) - 1;
+    return values[index] || 'Nenhuma avaliação';
   }
 }
 

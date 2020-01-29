@@ -14,6 +14,8 @@ export class Datasheet extends HTMLElement {
     const genre = this.getAttribute('genre');
     const duration = this.getAttribute('duration');
     const recommended = this.getAttribute('recommended');
+    const seasons = this.getAttribute('seasons');
+    const episodes = this.getAttribute('episodes');
 
     const recommendedDescritipion =
       recommended === 'L'
@@ -23,13 +25,21 @@ export class Datasheet extends HTMLElement {
     const template = `
       <section>
         <h3 class="sub-title">Ficha Técnica</h3>
-        <b-datasheet-item label="Título Original" description="${originalTitle}" ></b-datasheet-item>
-          <b-datasheet-item label="Data de Lançamento" description="${release}" ></b-datasheet-item>
+          <b-datasheet-item label="Título Original" description="${originalTitle}" ></b-datasheet-item>
+          <b-datasheet-item label="Lançamento" description="${release}" ></b-datasheet-item>
           <b-datasheet-item label="Gênero" description="${genre}" ></b-datasheet-item>
           <b-datasheet-item label="Duração" description="${duration}" ></b-datasheet-item>
           <b-datasheet-item
             label="Recomendação"
             description="${recommendedDescritipion}"
+          ></b-datasheet-item>
+          <b-datasheet-item
+            label="Temporadas"
+            description="${seasons}"
+          ></b-datasheet-item>
+          <b-datasheet-item
+            label="Episódios"
+            description="${episodes}"
           ></b-datasheet-item>
       </section>
     `;
