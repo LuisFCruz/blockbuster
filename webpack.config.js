@@ -29,7 +29,6 @@ module.exports = ({ mode }) =>
         new CopyWebpackPlugin([
           { from: 'src/images', to: 'images/' },
           'src/manifest.json',
-          'src/service-worker.js',
           'data',
         ]),
       ],

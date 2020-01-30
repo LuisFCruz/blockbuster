@@ -1,9 +1,10 @@
 const path = require('path');
 const webpack = require('webpack');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = () => ({
   output: {
-    publicPath: '/blockbuster/',
+    publicPath: '/blockbuster',
   },
   module: {
     rules: [
@@ -25,6 +26,7 @@ module.exports = () => ({
       BASE_URL: '"http://localhost:8080"',
       PATH: '"blockbuster"',
     }),
+    new CopyWebpackPlugin(['src/service-worker.js']),
   ],
   devtool: 'source-map',
 });

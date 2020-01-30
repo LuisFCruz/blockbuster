@@ -4,7 +4,6 @@ export const client = {
       method: 'GET',
     });
 
-    return result.json()
-
-  }
+    return result.json();
+  },
 };
